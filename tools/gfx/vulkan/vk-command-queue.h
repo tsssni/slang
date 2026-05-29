@@ -32,6 +32,7 @@ public:
     };
     List<FenceWaitInfo> m_pendingWaitFences;
     VkSemaphore m_pendingWaitSemaphores[2] = {VK_NULL_HANDLE, VK_NULL_HANDLE};
+    VkSemaphore m_pendingRenderFinishedSemaphore = VK_NULL_HANDLE;
     List<VkCommandBuffer> m_submitCommandBuffers;
     VkSemaphore m_semaphore;
     ~CommandQueueImpl();

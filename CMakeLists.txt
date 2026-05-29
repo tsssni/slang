@@ -527,7 +527,7 @@ if(SLANG_ENABLE_GFX)
         INSTALL
         FOLDER gfx
     )
-    set(modules_dest_dir $<TARGET_FILE_DIR:slang-test>)
+    set(modules_dest_dir $<TARGET_FILE_DIR:gfx>)
     add_custom_target(
         copy-gfx-slang-modules
         COMMAND ${CMAKE_COMMAND} -E make_directory ${modules_dest_dir}

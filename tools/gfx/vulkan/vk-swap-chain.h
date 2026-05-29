@@ -25,7 +25,8 @@ public:
 public:
     VkSwapchainKHR m_swapChain;
     VkSurfaceKHR m_surface;
-    VkSemaphore m_nextImageSemaphore; // Semaphore to signal after `acquireNextImage`.
+    List<VkSemaphore> m_nextImageSemaphores;
+    List<VkSemaphore> m_renderFinishedSemaphores;
     ISwapchain::Desc m_desc;
     VkFormat m_vkformat;
     RefPtr<CommandQueueImpl> m_queue;
@@ -33,6 +34,7 @@ public:
     RefPtr<DeviceImpl> m_renderer;
     VulkanApi* m_api;
     uint32_t m_currentImageIndex = 0;
+    uint32_t m_currentSemaphoreIndex = 0;
     WindowHandle m_windowHandle;
 #if SLANG_APPLE_FAMILY
     void* m_metalLayer;

@@ -81,9 +81,12 @@ void CommandQueueImpl::queueSubmitImpl(
         auto vkCmdBuf = cmdBufImpl->m_commandBuffer;
         m_submitCommandBuffers.add(vkCmdBuf);
     }
+    VkSemaphore chainSemaphore =
+        m_pendingRenderFinishedSemaphore != VK_NULL_HANDLE ? m_pendingRenderFinishedSemaphore
+                                                           : m_semaphore;
     Array<VkSemaphore, 2> signalSemaphores;
     Array<uint64_t, 2> signalValues;
-    signalSemaphores.add(m_semaphore);
+    signalSemaphores.add(chainSemaphore);
     signalValues.add(0);
 
     VkSubmitInfo submitInfo = {};
@@ -139,7 +142,7 @@ void CommandQueueImpl::queueSubmitImpl(
         commandBufferImpl->m_transientHeap->advanceFence();
     }
     vkAPI.vkQueueSubmit(m_queue, 1, &submitInfo, vkFence);
-    m_pendingWaitSemaphores[0] = m_semaphore;
+    m_pendingWaitSemaphores[0] = chainSemaphore;
     m_pendingWaitSemaphores[1] = VK_NULL_HANDLE;
 }
 
